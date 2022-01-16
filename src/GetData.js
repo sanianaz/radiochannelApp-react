@@ -3,7 +3,8 @@ import "./GetData.css";
 import Logo from "./logo.png";
 
 const GetData = () => {
-  const [user, setUser] = useState([]);
+  const [channels, setChannels] = useState();
+  const [fetchcomplete, setFetchcomplete] = useState(false);
 
   const getChannel = async () => {
     try {
@@ -11,44 +12,49 @@ const GetData = () => {
         "https://api.sr.se/api/v2/channels?format=json&indent=true&pagination=false"
       );
 
-      setUser(await response.json());
+      const data = await response.json();
+      console.log("fetch", data.channels);
+
+      setChannels(data.channels);
+      setFetchcomplete(true);
     } catch (error) {
       console.log("my error is " + error);
     }
   };
-  console.log(user);
-  console.log(user.channels);
-  console.log(user.channels[0].name);
-  console.log(user.channels[0].image);
-  console.log(user.channels[0].tagline);
-  console.log(user.channels[0].liveaudio.url);
+
   useEffect(() => {
     getChannel();
   }, []);
+
+  if (!fetchcomplete) return <p>loading </p>;
 
   return (
     <>
       <div>
         <img className="logo" src={Logo} alt=" channel" />
-        <h1>CHANNELS</h1>
+        <div class="video__icon">
+          <div class="circle--outer"></div>
+          <div class="circle--inner"></div>
+        </div>
+        <h1>Channels Playlist</h1>
       </div>
 
       <div className="card-container">
-        ¨
-        {user.indexes(this.user.channels).map((channel, index) => {
-          console.log(user.channels);
+        {channels.map((channel, index) => {
+          console.log("map", channels);
+          const { image, tagline, name, liveaudio } = channel;
           return (
             <>
               <article key={index}>
-                <img className="img" src="#" alt="Sample" />
+                <img className="img" src={image} alt="Sample" />
                 <div className="text">
-                  <h3 className="name">{channel.name}</h3>
-                  <p className="tagline">tagline</p>
+                  <h3 className="name">{name}</h3>
+                  <p className="tagline">{tagline}</p>
                   <a
                     className="url btn btn-primary btn-block"
-                    href="google.com"
+                    href={liveaudio.url}
                   >
-                    <p className="link_name">name url</p>
+                    <p className="link_name">Live streaming</p>
                   </a>
                 </div>
               </article>

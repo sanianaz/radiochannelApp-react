@@ -1,0 +1,23 @@
+.container {
+  width: 400px;
+
+  justify-content: center;
+  align-items: center;
+  margin-top: 0px;
+  margin-left: 800px;
+}
+h1 {
+  padding: 20px 20px;
+  background-color: antiquewhite;
+  color: #db7272;
+  text-align: center;
+  border-radius: 10px;
+}
+
+span {
+  color: #eb6363;
+}
+/* .heading {
+    color: rgb(243, 162, 209);
+    text-align: center;
+  } */
